@@ -84,6 +84,7 @@ def initialise():
     d1=d1.dropna(axis=1,how='all')
     global data
     data.columns = data.iloc[0]
+    data = data.loc[data.ProductCode != 'ProductCode']
     
 def recommend():
     global d1
