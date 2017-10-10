@@ -81,17 +81,17 @@ def initialise():
     data.columns = data.iloc[0]
     data = data.loc[data.ProductCode != 'ProductCode']
     
-def recommend():
+def recommend(product_code):
     global d1
-    product_code = input("Enter a product code")
+    #product_code = input("Enter a product code")
     record = d1.loc[d1['ProductCode'] == product_code]
     if(len(record.index)==0):
         raise NoRecordFoundException('No record for the given product-code')
     record = record.iloc[:1,3:]
     return record
-def cos_recommendation():
+def cos_recommendation(product_code):
     global d1
-    record = recommend()
+    record = recommend(product_code)
     l = []
     loop = len(d1.index)
     for i in range(loop+2):
@@ -115,8 +115,11 @@ def cos_recommendation():
     l1.reverse()
     num = int(input('Enter the number of similar products you want to see'))
     global data
+    l=[]
     for i in range(num):
         temp = data.loc[data['ProductCode'] == l1[i]]
+        l.append(temp.iloc[:,:])
         print(temp.iloc[:,:1]) #CHANGE SECOND SLICE TO GET MORE COLUMNS
-initialise()
-cos_recommendation()
+    return l
+#initialise()
+#cos_recommendation()
