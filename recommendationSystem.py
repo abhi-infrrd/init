@@ -13,7 +13,7 @@ def populateRecomendations():
     data = pd.read_csv("C:\\Users\\user\\Desktop\\test_panda\\Products_09202017.txt", sep="\t", quoting=3)
     data = data.iloc[:, [5, 6, 14, 15]]
 
-    nltk.download('stopwords')
+    #nltk.download('stopwords')
     from nltk.corpus import stopwords
     from nltk.stem.porter import PorterStemmer
     from sklearn.feature_extraction.text import CountVectorizer
@@ -83,4 +83,13 @@ def getIndexOfProductId(productCode='PC-006616'):
 
 #cormatrix = populateRecomendations()
 #finaldata = getRecomendation(cormatrix, 'PC-006616', 5, 0.7)
-#data = pd.read_csv("C:\\Users\\user\\Desktop\\test_panda\\Products_09202017.txt", sep="\t", quoting=3)
+
+#l = []
+#print(finaldata[0][2].to_dict())
+#k = len(finaldata)
+#for i in range(k):
+#    l.append(finaldata[i][2].to_dict())
+#print(type(l[0]))
+#import json
+#json.dumps(l)
+#print(type(l))

@@ -13,7 +13,7 @@ def populateCourseRecomendations():
     data = pd.read_csv("C:\\Users\\user\\Desktop\\test_panda\\Courses_09202017.txt", sep="\t", quoting=3,encoding='UTF-16')
     data = data.iloc[:, [8, 11, 18]]
 
-    nltk.download('stopwords')
+    #nltk.download('stopwords')
     from nltk.corpus import stopwords
     from nltk.stem.porter import PorterStemmer
     from sklearn.feature_extraction.text import CountVectorizer
@@ -56,7 +56,7 @@ def populateCourseRecomendations():
 def getCourseRecomendation(cormatrix, courseCode, NoOfValues=5, p_value=0.0):
     itemIndex = getIndexOfCourseId(str(courseCode))
     data = pd.read_csv("C:\\Users\\user\\Desktop\\test_panda\\Courses_09202017.txt", sep="\t", quoting=3,encoding='UTF-16')
-    productIds = data.iloc[:, [0, 5, 6,11,12, 14, 15]]
+    productIds = data.iloc[:, [0, 5, 6, 14, 15,16]]
 
     relatedItems = list()
     for items in range(len(cormatrix)):

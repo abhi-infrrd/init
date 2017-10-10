@@ -7,6 +7,7 @@ Created on Tue Oct 10 17:04:00 2017
 
 from flask import Flask
 from flask import Response
+import json
 import logging
 import recommendationSystem as rec
 import courses_courses as courses
@@ -44,7 +45,7 @@ def get_project_records(project, itemId):
   k = len(finaldata)
   for i in range(k):
     l.append(finaldata[i][2].to_dict())
-  return Response(l,  mimetype='application/json')
+  return Response(json.dumps(l),  mimetype='application/json')
 
 
 
