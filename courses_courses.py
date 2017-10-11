@@ -10,7 +10,7 @@ import nltk
 
 
 def populateCourseRecomendations():
-    data = pd.read_csv("C:\\Users\\user\\Desktop\\test_panda\\Courses_09202017.txt", sep="\t", quoting=3,encoding='UTF-16')
+    data = pd.read_csv("./Courses_09202017.txt", sep="\t", quoting=3,encoding='UTF-16')
     data = data.iloc[:, [8, 11, 18]]
 
     #nltk.download('stopwords')
@@ -55,7 +55,7 @@ def populateCourseRecomendations():
 # when p value is more add it to the related items list
 def getCourseRecomendation(cormatrix, courseCode, NoOfValues=5, p_value=0.0):
     itemIndex = getIndexOfCourseId(str(courseCode))
-    data = pd.read_csv("C:\\Users\\user\\Desktop\\test_panda\\Courses_09202017.txt", sep="\t", quoting=3,encoding='UTF-16')
+    data = pd.read_csv("./Courses_09202017.txt", sep="\t", quoting=3,encoding='UTF-16')
     productIds = data.iloc[:, [0, 5, 6, 14, 15,16]]
 
     relatedItems = list()
@@ -70,7 +70,7 @@ def getCourseRecomendation(cormatrix, courseCode, NoOfValues=5, p_value=0.0):
 
 
 def getIndexOfCourseId(productCode='PC-006616'):
-    data = pd.read_csv("C:\\Users\\user\\Desktop\\test_panda\\Courses_09202017.txt", sep="\t", quoting=3,encoding='UTF-16')
+    data = pd.read_csv("./Courses_09202017.txt", sep="\t", quoting=3,encoding='UTF-16')
     productIds = data.iloc[:, [0]]
     result  = ''
     for item in range(len(productIds)):

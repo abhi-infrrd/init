@@ -9,8 +9,10 @@ from flask import Flask
 from flask import Response
 import json
 import logging
-import recommendationSystem as rec
-import courses_courses as courses
+import recommendationSystem as product_product_recommendation
+import courses_courses as course_course_recommendation
+import course_recommendation as user_course_recommendation
+import prediction_for_user as predict_user
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
@@ -18,9 +20,16 @@ cormatrix1 = ''
 
 cormatrix2 = ''
 
+model = d_ui = all_course_club_unique = all_products_club_unique = courses = products =''
+
 @app.route("/recommend/<project>/user/<userId>", methods=['GET'])
 def get_user_records(project, userId):
-    
+  global model, d_ui, all_course_club_unique, all_products_club_unique, courses, products
+  if(project=='courses'):
+      return predict_user.predict_courses_for_user(userId , model, d_ui, all_course_club_unique, all_products_club_unique, courses, products)
+  elif(project=='products'):
+      return predict_user.predict_products_for_user(userId , model, d_ui, all_course_club_unique, all_products_club_unique, courses, products)
+  
   #global cormatrix
   #finaldata = rec.getRecomendation(cormatrix, project)
   #l = []
@@ -37,9 +46,9 @@ def get_project_records(project, itemId):
   global cormatrix2
   finaldata = ''
   if(project=='products'):
-      finaldata = rec.getRecomendation(cormatrix1, itemId)
+      finaldata = product_product_recommendation.getRecomendation(cormatrix1, itemId)
   elif(project=='courses'):
-      finaldata = courses.getCourseRecomendation(cormatrix2, itemId)
+      finaldata = course_course_recommendation.getCourseRecomendation(cormatrix2, itemId)
   l = []
   print(finaldata[0][2].to_dict())
   k = len(finaldata)
@@ -51,5 +60,6 @@ def get_project_records(project, itemId):
 
 if __name__ == '__main__':
     app.run(debug=True,port=2273)
-cormatrix1 = rec.populateRecomendations()
-cormatrix2 = courses.populateCourseRecomendations()
+cormatrix1 = product_product_recommendation.populateRecomendations()
+cormatrix2 = course_course_recommendation.populateCourseRecomendations()
+model, d_ui, all_course_club_unique, all_products_club_unique, courses, products = user_course_recommendation.train_model('.')

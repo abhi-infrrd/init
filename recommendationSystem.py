@@ -10,7 +10,7 @@ import nltk
 
 
 def populateRecomendations():
-    data = pd.read_csv("C:\\Users\\user\\Desktop\\test_panda\\Products_09202017.txt", sep="\t", quoting=3)
+    data = pd.read_csv("./Products_09202017.txt", sep="\t", quoting=3)
     data = data.iloc[:, [5, 6, 14, 15]]
 
     #nltk.download('stopwords')
@@ -55,7 +55,7 @@ def populateRecomendations():
 # when p value is more add it to the related items list
 def getRecomendation(cormatrix, productCode, NoOfValues=5, p_value=0.0):
     itemIndex = getIndexOfProductId(str(productCode))
-    data = pd.read_csv("C:\\Users\\user\\Desktop\\test_panda\\Products_09202017.txt", sep="\t", quoting=3)
+    data = pd.read_csv("./Products_09202017.txt", sep="\t", quoting=3)
     productIds = data.iloc[:, [0, 5, 6, 11, 12, 14, 15]]
 
     relatedItems = list()
@@ -70,7 +70,7 @@ def getRecomendation(cormatrix, productCode, NoOfValues=5, p_value=0.0):
 
 
 def getIndexOfProductId(productCode='PC-006616'):
-    data = pd.read_csv("C:\\Users\\user\\Desktop\\test_panda\\Products_09202017.txt", sep="\t", quoting=3)
+    data = pd.read_csv("./Products_09202017.txt", sep="\t", quoting=3)
     productIds = data.iloc[:, [0]]
     result=''
     for item in range(len(productIds)):
@@ -93,3 +93,5 @@ def getIndexOfProductId(productCode='PC-006616'):
 #import json
 #json.dumps(l)
 #print(type(l))
+#data = pd.read_csv("./Products_09202017.txt", sep="\t", quoting=3)
+#print(data.iloc[:1,:])
