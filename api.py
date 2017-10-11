@@ -28,9 +28,9 @@ model = d_ui = all_course_club_unique = all_products_club_unique = courses = pro
 def get_user_records(project, userId):
   global model, d_ui, all_course_club_unique, all_products_club_unique, courses, products
 
-  if(project=='courses'):
+  if(project=='CPA_PRODUCTS'):
       return Response(predict_user_item.predict_courses_for_user(userId , model, d_ui, all_course_club_unique, all_products_club_unique, courses, products),  mimetype='application/json')
-  elif(project=='products'):
+  elif(project=='CPA_COURSES'):
       return Response(predict_user_item.predict_products_for_user(userId , model, d_ui, all_course_club_unique, all_products_club_unique, courses, products),  mimetype='application/json')
 
 @app.route("/recommend/<project>/item/<itemId>", methods=['GET'])
@@ -55,7 +55,7 @@ def get_project_records(project, itemId):
 
 
 if __name__ == '__main__':
-    app.run(debug=True,port=2273)
+    app.run(host= '0.0.0.0',debug=True,port=2273)
 cormatrix1 = product_product_recommendation.populateRecomendations()
 cormatrix2 = course_course_recommendation.populateCourseRecomendations()
 #model, d_ui, all_course_club_unique, all_products_club_unique, courses, products = user_course_recommendation.train_model('.')
