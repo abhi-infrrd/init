@@ -85,6 +85,11 @@ def getIndexOfProductId(productCode='PC-006616'):
 #finaldata = getRecomendation(cormatrix, 'PC-006616', 5, 0.7)
 
 #l = []
+#k = len(finaldata)
+#for i in range(k):
+#    l.append(finaldata[i][2].to_dict())
+#print(l[0])
+#l[0]['rItemId'] = l[0]['ProductCode']
 #print(finaldata[0][2].to_dict())
 #k = len(finaldata)
 #for i in range(k):
@@ -95,3 +100,6 @@ def getIndexOfProductId(productCode='PC-006616'):
 #print(type(l))
 #data = pd.read_csv("./Products_09202017.txt", sep="\t", quoting=3)
 #print(data.iloc[:1,:])
+#print(finaldata[1][0])
+#print(finaldata[2][0])
+
