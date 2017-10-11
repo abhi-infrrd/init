@@ -1,14 +1,9 @@
-# The Id is not unique so i am using the index  of the product
-# set the index at the bottom
-# Lists the items in decreasing order of similarity
-# find the closest elements provide the index
-
 import numpy
 import pandas as pd
 import re
 import nltk
 
-Originaldata = pd.read_csv("data/Products_09202017.txt", sep="\t", quoting=3)
+Originaldata = pd.read_csv("./Products_09202017.txt", sep="\t", quoting=3)
 
 
 def populateRecomendations():
@@ -133,28 +128,3 @@ def getIndexOfProductId(productCode):
 cormatrix = populateRecomendations()
 finaldata = getRecomendation(cormatrix, 'PC-006616')
 print(finaldata)
-
-
-cormatrix = populateRecomendations()
-finaldata = getRecomendation(cormatrix, 'PC-006616')
-
-print((finaldata[0][2]))
-#l = []
-#k = len(finaldata)
-#for i in range(k):
-#    l.append(finaldata[i][2].to_dict())
-#print(l[0])
-#l[0]['rItemId'] = l[0]['ProductCode']
-#print(finaldata[0][2].to_dict())
-#k = len(finaldata)
-#for i in range(k):
-#    l.append(finaldata[i][2].to_dict())
-#print(type(l[0]))
-#import json
-#json.dumps(l)
-#print(type(l))
-#data = pd.read_csv("./Products_09202017.txt", sep="\t", quoting=3)
-#print(data.iloc[:1,:])
-#print(finaldata[1][0])
-#print(finaldata[2][0])
-

@@ -136,9 +136,9 @@ def getIndexOfCourseId(courseCode):
     return result
 
 
-cormatrix = populateCourseRecomendations()
-finaldata = getCourseRecomendation(cormatrix, 'AAB0512', )
-print(finaldata)
+#cormatrix1 = populateCourseRecomendations()
+#finaldata = getCourseRecomendation(cormatrix1, 'D3D28F97D8F8499191ABCCD7408812B5', )
+#print(finaldata)
 #print(finaldata)
 #cormatrix1 = populateCourseRecomendations()
 #finaldata = getCourseRecomendation(cormatrix1, 'PC-150024' )
