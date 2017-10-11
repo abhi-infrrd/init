@@ -139,33 +139,3 @@ def getIndexOfCourseId(courseCode):
 #cormatrix1 = populateCourseRecomendations()
 #finaldata = getCourseRecomendation(cormatrix1, 'D3D28F97D8F8499191ABCCD7408812B5', )
 #print(finaldata)
-#print(finaldata)
-#cormatrix1 = populateCourseRecomendations()
-#finaldata = getCourseRecomendation(cormatrix1, 'PC-150024' )
-
-
-#cormatrix1 = populateCourseRecomendations()
-#finaldata = getCourseRecomendation(cormatrix1, 'PC-150024', 5, 0.7)
-#l = []
-#k = len(finaldata)
-#for i in range(k):
-#    l.append(finaldata[i][2].to_dict())
-#print(l[0])
-#l[0]['rItemId'] = l[0]['ProductCode']
-#print(finaldata[0][2].to_dict())
-#k = len(finaldata)
-#for i in range(k):
-#    l.append(finaldata[i][2].to_dict())
-#print(type(l[0]))
-#import json
-#json.dumps(l)
-#print(type(l))
-#data = pd.read_csv("./Products_09202017.txt", sep="\t", quoting=3)
-#print(data.iloc[:1,:])
-
-#print(finaldata[4][0])
-#print(finaldata[2][0])
-#print(type(finaldata[2][2].to_dict()))
-#Originaldata = pd.read_csv("./Courses_09202017.txt", sep="\t", quoting=3, encoding='UTF-16')
-#data = pd.DataFrame(Originaldata)
-#courseIds = data.iloc[:, [0, 1,3, 5, 6, 14, 15, 16]]

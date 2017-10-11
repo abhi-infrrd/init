@@ -125,6 +125,6 @@ def getIndexOfProductId(productCode):
     return result
 
 
-cormatrix = populateRecomendations()
-finaldata = getRecomendation(cormatrix, 'PC-006616')
-print(finaldata)
+#cormatrix = populateRecomendations()
+#finaldata = getRecomendation(cormatrix, 'PC-006616')
+#print(finaldata[0])
