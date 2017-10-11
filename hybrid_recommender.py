@@ -16,7 +16,7 @@ def train_model(local_path):
     doc = codecs.open(local_path + '/Courses_09202017.txt', 'rU', 'UTF-16')
     courses = pd.read_csv(doc, sep = '\t')
 
-    doc = codecs.open(local_path + '/Products_09202017.txt', 'rU', 'UTF-16')
+    doc = codecs.open(local_path + '/Products_09202017.txt', 'rU', 'UTF-8')#16-->8
     products = pd.read_csv(doc, sep = '\t')
 
     doc = codecs.open(local_path + '/ProdOrderSummary_09202017.txt', 'rU', 'UTF-8')
@@ -28,7 +28,7 @@ def train_model(local_path):
     doc = codecs.open(local_path + '/UserSubscriptions_09202017.txt', 'rU', 'UTF-8')
     user_subscription = pd.read_csv(doc, sep = '\t')
 
-    demographics = pd.read_csv(local_path + '/user__masterlist.csv', sep = '\t')
+    demographics = pd.read_csv(local_path + '/user__masterlist.csv',  sep = '\t', encoding='ISO-8859-1')
 
 
     courses_club = courses['CourseCode']

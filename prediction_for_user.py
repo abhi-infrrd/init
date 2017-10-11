@@ -1,17 +1,9 @@
-
-# coding: utf-8
-
-# In[1]:
-
-
 import pandas as pd
 import numpy as np
 
 
-# In[2]:
 
-
-def predict_courses_for_user(user, model, d_ui, all_course_club_unique, all_products_club_unique, courses, top_N):
+def predict_courses_for_user(user, model, d_ui, all_course_club_unique, all_products_club_unique, courses, top_N = -1):
     user_id = d_ui[user]
     required_columns = ['CourseCode', 'Type', 'AllFieldOfStudy', 'EventEndDate', 'EventStartDate']
     courses = pd.DataFrame(courses, columns=required_columns)
@@ -36,18 +28,16 @@ def predict_courses_for_user(user, model, d_ui, all_course_club_unique, all_prod
             top_items_info.loc[len(top_items_info)] = row
             top_items_info.at[i, 'Score'] = d_scores[item]
             top_items_info.at[i, 'CourseCode'] = top_items[i]
-        if i == top_N - 1:
+        if (i == top_N - 1) and (top_N != -1):
             break
     top_items_info_json = top_items_info.to_json(orient='index')
     return top_items_info_json
 
 
-# In[3]:
 
-
-def predict_products_for_user(user, model, d_ui, all_course_club_unique, all_products_club_unique, products, top_N):
+def predict_products_for_user(user, model, d_ui, all_course_club_unique, all_products_club_unique, products, top_N = -1):
     user_id = d_ui[user]
-    scores = model.predict(user_id, np.arange(len(all_course_club_unique) + 1, len(all_course_club_unique) + len(all_products_club_unique)))
+    scores = model.predict(user_id, np.arange(len(all_course_club_unique) + 1, len(all_course_club_unique) + len(all_products_club_unique) + 1))
     d_scores = {}
     for i in range(len(scores)):
         score = scores[i]
@@ -65,7 +55,7 @@ def predict_products_for_user(user, model, d_ui, all_course_club_unique, all_pro
             item = top_items[i]
             top_items_info.at[counter, 'Score'] = d_scores[item]
             counter = counter + 1
-        if counter == top_N:
+        if (counter == top_N) and (top_N != -1):
             break
     required_columns = ['ProductCode', 'Type', 'AllFieldOfStudy', 'EventEndDate', 'EventStartDate', 'Score']
     top_items_info = pd.DataFrame(top_items_info, columns=required_columns)
