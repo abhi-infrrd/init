@@ -33,15 +33,14 @@ def get_project_records(project):
   finaldata = ''
   if(project=='CPA_PRODUCTS'):
       finaldata = product_product_recommendation.getRecomendation(cormatrix1, itemId)
+      for temp in finaldata:
+          temp['rItemId'] = temp['ProductCode']
   elif(project=='CPA_COURSES'):
       finaldata = course_course_recommendation.getCourseRecomendation(cormatrix2, itemId)
+      for temp in finaldata:
+          temp['rItemId'] = temp['ProductCode']
   else:
       return Response(status=404, mimetype='application/json')
-  for temp in finaldata:
-    if(project=='CPA_PRODUCTS'):
-        temp['rItemId'] = temp['ProductCode']
-    elif(project=='CPA_COURSES'):
-        temp['rItemId'] = temp['CourseCode']
   return Response(json.dumps(finaldata),  mimetype='application/json')
 
 if __name__ == '__main__':
