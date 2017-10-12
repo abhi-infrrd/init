@@ -16,6 +16,8 @@ from flask import request
 import json
 import product_product as product_product_recommendation
 import courses_courses as course_course_recommendation
+from datetime import datetime
+import test_recommender as rc
 app = Flask(__name__)
 
 cormatrix1 = ''
@@ -32,9 +34,17 @@ def get_project_records(project):
   global cormatrix2
   finaldata = ''
   if(project=='CPA_PRODUCTS'):
-      finaldata = product_product_recommendation.getRecomendation(cormatrix1, itemId)
+      finaldata = rc.cos_recommendation(itemId)
       for temp in finaldata:
           temp['rItemId'] = temp['ProductCode']
+          try:
+            temp['EventStartDate'] = datetime.strptime(temp['EventStartDate'], '%Y-%m-%d %H:%M').isoformat()
+          except:
+            temp['EventStartDate'] = None
+          try:
+            temp['EventEndDate'] = datetime.strptime(temp['EventEndDate'], '%Y-%m-%d %H:%M').isoformat()
+          except:
+            temp['EventEndDate'] = None
   elif(project=='CPA_COURSES'):
       finaldata = course_course_recommendation.getCourseRecomendation(cormatrix2, itemId)
       for temp in finaldata:
@@ -47,5 +57,6 @@ if __name__ == '__main__':
     app.run(host= '0.0.0.0',debug=True,port=2273)
     
 #Intial training on startup, delays the availability of endpoint by a few minutes
-cormatrix1 = product_product_recommendation.populateRecomendations()
-cormatrix2 = course_course_recommendation.populateCourseRecomendations()
+#cormatrix1 = product_product_recommendation.populateRecomendations()
+#cormatrix2 = course_course_recommendation.populateCourseRecomendations()
+rc.initialise()

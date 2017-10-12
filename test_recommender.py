@@ -41,7 +41,7 @@ def preprocess_data():
     l = ['Keywords','Topic','Title','Description','Type','PriceRange'] 
 
     for i in l:    
-        d1 = d1.fillna(d1['PriceRange'].value_counts().index[0])
+        d1 = d1.fillna(d1[i].value_counts().index[0])
 
 def tf_idf_proceessing(attribute):
     
@@ -84,7 +84,7 @@ def initialise():
     
     cos_similarity = cosine_similarity(d1.iloc[:,3:])
     
-def cos_recommendation(product_code, data = data):
+def cos_recommendation(product_code):
     global d1
     record = d1.loc[d1['ProductCode'] == product_code]
     if(len(record.index)==0):
@@ -96,13 +96,22 @@ def cos_recommendation(product_code, data = data):
 
     temp = cos_similarity[indc]
 
-    data['rating'] = temp 
+    data['score'] = temp 
 
-    data.sort_values('rating',ascending=False, inplace=True)
+    data.sort_values('score',ascending=False, inplace=True)
     
-    return data
+    finaldata = data.iloc[:101,:]# slice to limit the number of rows
+    
+    finaldata = finaldata.loc[data.ProductCode != product_code]
+    
+    finaldata = finaldata.drop_duplicates('ProductCode',keep='first')
+    
+    finaldata = finaldata.ix[:,[0, 1, 5, 6, 11, 12, 14, 15,16]]
+    
+    return (list(finaldata.T.to_dict().values()))
+
 #initialise()
-#l = cos_recommendation('PC-005102',data = data)
+#l = cos_recommendation('PC-005102')
 #print(l.loc[:10,['rating']])
 #print(data.iloc[:10,:4])
 #del data['rating']
