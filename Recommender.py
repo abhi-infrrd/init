@@ -6,8 +6,6 @@ Created on Fri Oct  6 12:36:01 2017
 """
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
-import os
-os.chdir("C:\\Users\\user\\Desktop\\recommender-infrrd-10-11-2017\\init\\") #harcoded
 def read_a_file_to_dataframe(file_name,separator):
     return pd.read_csv(file_name,sep = separator, header=None)
 
@@ -18,7 +16,6 @@ def drop_null_rows(dataframe):
     return dataframe.dropna()
 
 def proc_an_attribute(dataframe,attribute): 
-    #nltk.download('stopwords')
     v = TfidfVectorizer(analyzer='word',stop_words = 'english')
     x = v.fit_transform(dataframe[attribute].values.astype('str'))
     return x,v

@@ -7,7 +7,7 @@ Created on Tue Oct 10 17:04:00 2017
 #This script produces the product-product and course-course recommendation. 
 
 #To run the script execute the following commands from the same directory
-#export FLASK_APP = api.py
+#export FLASK_APP=api.py
 #python -m flask run --host=0.0.0.0 -p 2273
 
 from flask import Flask
