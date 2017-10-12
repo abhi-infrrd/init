@@ -95,7 +95,7 @@ def cos_recommendation(product_code):
 
     data.sort_values('score',ascending=False, inplace=True)
     
-    finaldata = data.iloc[:101,:]# slice to limit the number of rows to return as output
+    finaldata = data.iloc[:,:]# slice to limit the number of rows to return as output
     
     finaldata = finaldata.loc[data.ProductCode != product_code]
     
