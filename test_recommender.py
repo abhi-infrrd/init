@@ -10,9 +10,12 @@ import Recommender as rc
 import pandas as pd
 from scipy.spatial.distance import cosine
 from collections import OrderedDict
+from sklearn.metrics.pairwise import cosine_similarity
 data = ''
 
 d1 = ''
+
+cos_similarity = ''
 class NoRecordFoundException(Exception):
     pass
 def preprocess_data():
@@ -39,22 +42,16 @@ def preprocess_data():
 
     for i in l:    
         d1 = d1.fillna(d1['PriceRange'].value_counts().index[0])
-        
-    #d1 = rc.drop_null_rows(d1)
-    
-    
-
 
 def tf_idf_proceessing(attribute):
     
     global d1
     
     x,v = rc.proc_an_attribute(d1,attribute)
+    
     arr = v.get_feature_names()
        
     data_frame_temp  = pd.DataFrame(x.toarray(), columns = arr) 
-    #data_frame_temp.columns = data_frame_temp.iloc[0]
-    #data_frame_temp.drop(data_frame_temp.index[[0,0]], inplace=True)
     
     del d1[attribute]
     
@@ -69,6 +66,7 @@ def one_hot_encode_processing(attribute):
     d1 = rc.one_hot_encoding(d1,attribute)
 
 def initialise():
+    
     preprocess_data()    
 
     tf_idf_proc_list = ['Keywords','Topic','Title','Description']
@@ -79,58 +77,59 @@ def initialise():
         tf_idf_proceessing(i)
     for i in one_hot_encode_list:
         one_hot_encode_processing(i)
-    #global d1
-    #d1 = d1.convert_objects(convert_numeric=True)#There's an issue of SkuCode turing into nan
-    #d1=d1.dropna(axis=1,how='all')
-    global data
-    #data.columns = data.iloc[0]
-    data = data.loc[data.ProductCode != 'ProductCode'] #chnaging global varibale, neagtive effects
+    #global data
     
-def recommend(product_code):
+    #data = data.loc[data.ProductCode != 'ProductCode'] #changing global varibale, neagtive effects
+    global cos_similarity, d1
+    
+    cos_similarity = cosine_similarity(d1.iloc[:,3:])
+    
+def cos_recommendation(product_code, data = data):
     global d1
-    #product_code = input("Enter a product code")
     record = d1.loc[d1['ProductCode'] == product_code]
     if(len(record.index)==0):
         raise NoRecordFoundException('No record for the given product-code')
-    record = record.iloc[:1,3:]
-    return record
-def cos_recommendation(product_code,num = 5):
-    global d1
-    record = recommend(product_code)
-    l = []
-    loop = len(d1.index)
-    for i in range(loop+2):
-        try:
-            k = 1-cosine(record,d1.iloc[i:i+1,3:])
-            l.append(k)
-        except:
-            break
-    mapping  = d1.iloc[:,:1]
+    data.reset_index(drop=True, inplace=True)
+    df  = data.loc[data['ProductCode'] == product_code]
+    df = df.iloc[:1,:]
+    indc  = ((df.index).tolist())[0]
 
-    df = pd.DataFrame(l,columns=['rating'])
+    temp = cos_similarity[indc]
 
-    f = rc.concat_a_list_of_dataframes([df,mapping])
+    data['rating'] = temp 
 
-    dic = f.set_index('ProductCode').T.to_dict()
-    ordered = OrderedDict(sorted(dic.items(), key=lambda i: i[1]['rating']))
-    l1 =[]
-    k = ordered.keys()
-    for i in k:
-        l1.append(i)
-    l1.reverse()
-    #num = int(input('Enter the number of similar products you want to see'))
-    global data
-    l=[]
-    for i in range(num):
-        temp = data.loc[data['ProductCode'] == l1[i]]
-        l.append(temp.iloc[:,:])
-        print(temp.iloc[:,:1]) #CHANGE SECOND SLICE TO GET MORE COLUMNS
-    return l
-initialise()
-l = cos_recommendation('PC-006617')
-print(l[0].iloc[:,:2])
+    data.sort_values('rating',ascending=False, inplace=True)
+    
+    return data
+#initialise()
+#l = cos_recommendation('PC-005102',data = data)
+#print(l.loc[:10,['rating']])
+#print(data.iloc[:10,:4])
+#del data['rating']
+#for i in range(len(cos_similarity[0])):
 
-preprocess_data()  
+#df  = data.loc[data['ProductCode'] == 'PC-006624']
+#df = df.iloc[:1,:]
+#indc  = ((df.index).tolist())[0]
+
+#temp = cos_similarity[indc]
+
+#data['rating'] = temp 
+
+#print(data['rating'])
+
+#data.sort_values(['rating'], ascending=[False])
+
+#k = data
+
+#del k['rating']
+#print(type(((df.index).tolist())[0]))
+#k = cos_similarity[0,:]
+#print(type(cos_similarity[0,:]))
+#print(sort(cos_similarity[0][i]))
+#l = cos_recommendation('PC-005102',num = 100)
+#print(l[0].iloc[:,:2])
+ 
 
 #def f(x):
 #    if x.count()<=0:
@@ -147,8 +146,8 @@ preprocess_data()
 #x = d1.groupby(['ProductCode']).agg(lambda x:x.value_counts())
 #print(x.loc['ProductCode'])
 
-data.columns = data.iloc[0]
-data.drop(data.index[[0,0]], inplace=True)
+#data.columns = data.iloc[0]
+#data.drop(data.index[[0,0]], inplace=True)
 
 #d1 = data.iloc[:,15:]
 
