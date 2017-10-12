@@ -47,5 +47,5 @@ if __name__ == '__main__':
     app.run(host= '0.0.0.0',debug=True,port=2273)
     
 #Intial training on startup, delays the availability of endpoint by a few minutes
-cormatrix1 = product_product_recommendation.populateRecomendations()
-cormatrix2 = course_course_recommendation.populateCourseRecomendations()
+#cormatrix1 = product_product_recommendation.populateRecomendations()
+#cormatrix2 = course_course_recommendation.populateCourseRecomendations()

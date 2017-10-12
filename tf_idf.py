@@ -7,7 +7,7 @@ Created on Thu Oct  5 10:59:08 2017
 
 #change working directory
 import os
-os.chdir('C:\\Users\\user\\Desktop\\test_panda')
+os.chdir("C:\\Users\\user\\Desktop\\recommender-infrrd-10-11-2017\\init")
 
 import pandas as pd
 
@@ -24,16 +24,47 @@ d1 = pd.DataFrame(data,columns = [0,1,2,3,4,5,13,14,15])
 d1.columns = d1.iloc[0]
 d1.drop(d1.index[[0,0]], inplace=True)
 
+data.columns = data.iloc[0]
+data.drop(data.index[[0,0]], inplace=True)
+
+l = ['Keywords','Topic','Title','Description','Type','PriceRange'] 
+
+for i in l:    
+    d1 = d1.fillna(d1['PriceRange'].value_counts().index[0])
+
 #data as array
 #x = d1.iloc[:,[8]].values
 
-d1 = d1.dropna()
+#d1 = d1.dropna()
+tf_idf_proc_list = ['Keywords','Topic','Title','Description']
 
-from sklearn.feature_extraction.text import TfidfVectorizer
-v = TfidfVectorizer()
+one_hot_encode_list = ['Type','PriceRange']
 
-x = v.fit_transform(d1['Description'])
-print(v.get_feature_names())
+for i in tf_idf_proc_list:
+    from nltk.corpus import stopwords
+    stops = set(stopwords.words("english"))
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    v = TfidfVectorizer(analyzer='word',stop_words = 'english',max_features=400 )
+
+    x = v.fit_transform(d1[i].values.astype('str'))
+
+    df = pd.DataFrame(x.toarray(), columns=v.get_feature_names())
+
+    import Recommender as rc
+    d1.reset_index(drop=True, inplace=True)
+    df.reset_index(drop=True, inplace=True)
+    d1 = rc.concat_a_list_of_dataframes([d1,df])
+
+    del d1[i]
+for i in one_hot_encode_list:
+    one_hot = pd.get_dummies(d1[i])
+    d1.reset_index(drop=True, inplace=True)
+    one_hot.reset_index(drop=True, inplace=True)
+    d1 = pd.concat([d1,one_hot], axis=1)
+    del d1[i]
+print(d1.iloc[:1,:])
+
+
 
 f = open('desc.txt','w')
 
