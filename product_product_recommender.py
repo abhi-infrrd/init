@@ -4,6 +4,9 @@ Created on Fri Oct  6 12:36:01 2017
 
 @author: Abhishek 
 """
+import os
+os.chdir("C:\\Users\\user\\Desktop\\recommender-infrrd-10-11-2017\\init")
+
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
 def read_a_file_to_dataframe(file_name,separator):
